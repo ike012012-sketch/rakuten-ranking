@@ -3,7 +3,7 @@
   "site_description": "一人暮らしや学生生活に役立つ便利グッズを、楽天市場のジャンル別ランキングから毎日自動でお届けします。",
   "site_url": "https://ike012012-sketch.github.io/rakuten-ranking/",
   "referer": "https://ike012012-sketch.github.io/",
-  "items_per_genre": 10,
+  "items_per_genre": 30,
   "genres": [
     { "id": "562637", "name": "家電", "emoji": "🔌", "note": "電子レンジ・洗濯機・ドライヤーなど新生活の必需品" },
     { "id": "558944", "name": "キッチン用品", "emoji": "🍳", "note": "自炊をラクにする調理器具や食器" },
