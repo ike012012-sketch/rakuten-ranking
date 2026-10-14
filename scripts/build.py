@@ -98,9 +98,9 @@ def fetch_ranking(genre_id, creds, referer):
 
 
 def normalize_items(data, limit):
-    """formatVersion 1 / 2 どちらの応答でも同じ形に揃える。"""
+    """formatVersion 1 / 2 どちらの応答でも同じ形に揃え、1位から順に並べる。"""
     items = []
-    for raw in data.get("Items", [])[:limit]:
+    for index, raw in enumerate(data.get("Items", [])):
         item = raw.get("Item", raw) if isinstance(raw, dict) else {}
         images = item.get("mediumImageUrls") or item.get("smallImageUrls") or []
         image = ""
@@ -110,9 +110,13 @@ def normalize_items(data, limit):
         if image:
             # 小さい画像を少し大きめのサイズに差し替え
             image = image.split("?")[0] + "?_ex=300x300"
+        try:
+            rank = int(item.get("rank"))
+        except (TypeError, ValueError):
+            rank = index + 1
         items.append(
             {
-                "rank": item.get("rank") or len(items) + 1,
+                "rank": rank,
                 "name": item.get("itemName", ""),
                 "price": item.get("itemPrice"),
                 "url": item.get("affiliateUrl") or item.get("itemUrl", ""),
@@ -122,23 +126,27 @@ def normalize_items(data, limit):
                 "review_count": item.get("reviewCount"),
             }
         )
-    return items
+    # APIの応答が下位から並んでいることがあるため、必ず順位の小さい順に並べ替える
+    items.sort(key=lambda it: it["rank"])
+    return items[:limit]
 
 
-def sample_items(genre, limit):
-    return [
-        {
-            "rank": i,
-            "name": f"【サンプル】{genre['name']}のおすすめ商品 {i} 一人暮らしにぴったりのコンパクトサイズ",
-            "price": 1980 * i,
-            "url": "https://www.rakuten.co.jp/",
-            "image": "",
-            "shop": "サンプルショップ",
-            "review_average": 4.5,
-            "review_count": 120 * i,
-        }
-        for i in range(1, limit + 1)
-    ]
+def sample_data(genre, count=30):
+    """API応答と同じ形のダミーデータ。実際のAPIと同じく下位から並べておく。"""
+    return {
+        "Items": [
+            {
+                "rank": i,
+                "itemName": f"【サンプル】{genre['name']}のおすすめ商品 {i} 一人暮らしにぴったりのコンパクトサイズ",
+                "itemPrice": 1980 * i,
+                "itemUrl": "https://www.rakuten.co.jp/",
+                "shopName": "サンプルショップ",
+                "reviewAverage": 4.5,
+                "reviewCount": 120 * i,
+            }
+            for i in range(count, 0, -1)
+        ]
+    }
 
 
 def esc(value):
@@ -165,7 +173,7 @@ def render_item(item):
     return f"""
       <li class="card">
         <a href="{esc(item['url'])}" target="_blank" rel="sponsored noopener">
-          <span class="rank{rank_class}">{rank}</span>
+          <span class="rank{rank_class}">{rank}<small>位</small></span>
           <div class="thumb">{img}</div>
           <div class="info">
             <p class="name">{esc(item['name'])}</p>
@@ -236,14 +244,14 @@ def main():
     args = parser.parse_args()
 
     config = load_config()
-    limit = int(config.get("items_per_genre", 10))
+    limit = int(config.get("items_per_genre", 30))
     creds = None if args.sample else get_credentials()
 
     sections = []
     failures = []
     for i, genre in enumerate(config["genres"]):
         if args.sample:
-            items = sample_items(genre, limit)
+            items = normalize_items(sample_data(genre), limit)
         else:
             if i > 0:
                 time.sleep(REQUEST_INTERVAL_SEC)
