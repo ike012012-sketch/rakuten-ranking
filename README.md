@@ -27,7 +27,9 @@
 
 ## Google Search Console の確認コード
 
-`config.json` の `google_site_verification` に、Search Console で表示された確認コード(`content="..."` の中身)を入れると、全ページに確認用のタグが入ります。
+所有権の確認には、Search Console からダウンロードした確認用ファイル `site/google0a0575c348633de9.html` を使っています。このファイルは消さないでください(消すと確認が外れます)。
+
+HTMLタグで確認する場合は、`config.json` の `google_site_verification` に確認コード(`content="..."` の中身)を入れると、全ページに確認用のタグが入ります。
 
 ## ジャンルを変えたいとき
 
