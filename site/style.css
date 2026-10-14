@@ -1,0 +1,204 @@
+:root {
+  --bg: #f6f5f2;
+  --card: #ffffff;
+  --text: #222222;
+  --muted: #6b6b6b;
+  --accent: #bf0000;
+  --accent-soft: #fff1f0;
+  --border: #e6e3dd;
+  --gold: #c9a227;
+  --silver: #9aa0a6;
+  --bronze: #b0703c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17171a;
+    --card: #222227;
+    --text: #ececec;
+    --muted: #a3a3a8;
+    --accent: #ff5a4f;
+    --accent-soft: #3a2220;
+    --border: #34343a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 56px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: inherit; }
+
+.ad-notice {
+  margin: 0;
+  padding: 6px 16px;
+  background: var(--accent-soft);
+  color: var(--text);
+  font-size: 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 8px;
+}
+
+.site-header h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.lead { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.updated { margin: 0; font-size: 12px; color: var(--muted); }
+
+.genre-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+.genre-nav::-webkit-scrollbar { display: none; }
+
+.genre-nav a {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+.genre { padding-top: 24px; }
+.genre h2 { margin: 0 0 2px; font-size: 19px; }
+.note { margin: 0 0 12px; font-size: 13px; color: var(--muted); }
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 720px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+
+.card a {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.rank {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 14px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+  text-align: center;
+}
+.rank-1 { background: var(--gold); color: #fff; }
+.rank-2 { background: var(--silver); color: #fff; }
+.rank-3 { background: var(--bronze); color: #fff; }
+
+.thumb {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.noimg {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 11px;
+  color: #999;
+}
+
+.info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.name {
+  margin: 0 0 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price { margin: 0; font-size: 17px; font-weight: 700; color: var(--accent); }
+
+.meta {
+  margin: 2px 0 8px;
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+.review { color: #e09b00; }
+.review small { color: var(--muted); }
+.shop { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+.btn {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.site-footer {
+  max-width: 960px;
+  margin: 32px auto 0;
+  padding: 20px 16px 40px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+.site-footer p { margin: 0 0 8px; }
